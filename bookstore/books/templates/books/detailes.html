@@ -1,0 +1,13 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card" style="width: 18rem;">
+    <img src="{% static 'books/images/' %}{{ book.image }}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">{{ book.name }}</h5>
+        <p class="card-text">Price: {{ book.price }}</p>
+        <a href="#" class="btn btn-primary">Buy Now</a>
+    </div>
+</div>
+{% endblock %}

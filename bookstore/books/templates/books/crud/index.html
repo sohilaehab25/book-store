@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}
+    Db bookstore Page
+{% endblock %}
+
+{% block content %}
+    <h1>book from Db</h1>
+    
+    <a href="{% url 'products.create' %}" class="btn btn-dark">Create New Product </a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Show</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.price }}</td>
+                <>
+                    {% comment %} <img src="{% static 'books/images/' %}{{ book.image }}" width="200" height="200" alt=""> {% endcomment %}
+                     <img width="200" height="200" src="{{product.image_url}}">
+                </td>
+                {% comment %} <td>
+                    <a class="btn btn-info" href="{% url 'books.getbookbyid' book.id %}">Show</a>
+                </td> {% endcomment %}
+
+                <td >
+                    <a class="btn btn-info" href="{{book.show_url}}"> Show</a>
+                </td>
+                <td >
+                    <a class="btn btn-dengr" href="{{book.delete_url}}"> Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
