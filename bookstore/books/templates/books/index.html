@@ -8,7 +8,7 @@
 {% block content %}
     <h1>book from Db</h1>
     
-    {% comment %} <a href="{% url 'books.create' %}" class="btn btn-dark">Create New Product </a> {% endcomment %}
+    <a href="{% url 'books.create' %}" class="btn btn-dark">Create New Product </a>
     <table class="table">
         <thead>
             <tr>
@@ -35,14 +35,16 @@
                 </td> {% endcomment %}
 
                 <td >
-                    <a class="btn btn-info" href="{% url 'books.show_index' book.id%}"> Show</a>
+                    {% comment %} <a class="btn btn-info" href="{% url 'books.show_index' book.id%}"> Show</a> {% endcomment %}
 
-                    {% comment %} <a class="btn btn-info" href="{{book.show_url}}"> Show</a> {% endcomment %}
+                    <a class="btn btn-info" href="{{book.show_url}}"> Show</a>
                     
                 </td>
                 <td >
                     <a class="btn btn-danger" href="{{book.delete_url}}"> Delete</a>
-                    <a class="btn btn-primary" href="{{book.delete_url}}"> Update</a>
+                    {% comment %} <a class="btn btn-danger" href="{% url:'books.delete' book.id%}"> Delete</a> {% endcomment %}
+
+                    <a class="btn btn-primary" href="{% url 'books.book_updated' book.id %}"> Update</a>
 
                     
 

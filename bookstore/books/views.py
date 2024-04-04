@@ -31,7 +31,7 @@ def welcome(req):
 
 def getallbooks(req):
     print (req)
-    return HttpResponse(books)
+    return HttpResponse(Book)
 
 
 def getbookbyid(req, id):
@@ -63,28 +63,40 @@ def show_index(req,id):
     return render(req, "books/crud/show.html", context={"book": book})
 
 
-def book_delete(request, id):
-    book = get_object_or_404(book, pk=id)
+def book_delete(req, id):
+    book = get_object_or_404(Book, pk=id)
     book.delete()
-    url = reverse("books.index")
+    # return HttpResponse("produc deleted")
+    url = reverse("books.books_index")
     return redirect(url)
-
-
-def book_create(request):
+    
+def book_create(req):
     # print(request)
-    if request.method == "POST":
+    if req.method == "POST":
         # print(request.POST)
-         print(request.FILES)
-         if request.FILES:
-            image = request.FILES["image"]
+         print(req.FILES)
+         if req.FILES:
+            image = req.FILES["image"]
          else:
             image = None
-         book_ = Book(name=request.POST["name"], price=request.POST["price"], image=image)
+         book_ = Book(name=req.POST["name"], price=req.POST["price"], image=image)
          book_.save()
-         return redirect(Book.show_url)
-        # return HttpResponse("Post request received")
+         url = reverse("books.books_index")
+         return redirect(url)
+        #  return HttpResponse("Post request received")
        # get request
-    return  render(request, 'books/crud/create.html')
+    return  render(req, 'books/crud/create.html')
      
-        
 
+def book_updated(req, id):
+    book = get_object_or_404(Book, pk=id)
+    
+    if req.method == 'POST':
+        book.name = req.POST.get('name', book.name)
+        book.price = req.POST.get('price', book.price)
+        if req.FILES:
+            book.image = req.FILES['image']
+        book.save()
+        return redirect('books.books_index')
+    
+    return render(req, 'books/crud/update.html', {'book': book})

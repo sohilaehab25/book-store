@@ -12,7 +12,7 @@
         <p class="card-text">Price: {{ book.price }}</p>
         <p class="card-text">Created_at{{book.created_at}}</p>
         <p class="card-text">Updated_at{{book.updated_at}}</p>
-        {{book.show_url}}
+        {% comment %} {{book.show_url}} {% endcomment %}
         <a href="#" class="btn btn-primary">Buy Now</a>
     </div>
 </div>

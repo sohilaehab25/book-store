@@ -10,8 +10,10 @@ urlpatterns = [
     path('home/', home, name='books.home'),
     path('aboutus/', aboutus,name='books.aboutus'),
     path('contactus/', contactus,name='books.contactus'),
-    path('', books_index,name='books_index'),
+    path('', books_index,name='books.books_index'),
     path('<int:id>', show_index, name='books.show_index'),
-    path('<int:id>', book_delete, name='books.delete'),
-    path('create_book', book_create,name='books.create')
+    path('<int:id>/delete', book_delete, name='books.delete'),
+    path('create_book', book_create,name='books.create'),
+    path('<int:id>/update',book_updated,name='books.book_updated')
+
 ]
