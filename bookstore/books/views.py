@@ -5,7 +5,7 @@ from django.http import HttpResponse
 import json
 
 
-from books.models import book
+from books.models import Book
 
 
 
@@ -21,13 +21,13 @@ def welcome(req):
     print(req)
     return HttpResponse("hello soso")
 
-books =[
-    {'id':1, 'name':'story1', 'price':'104 LE','image':"1.jpg"},
-    {'id':2, 'name':'story2', 'price':'10 LE','image':"2.jpg"},
-    {'id':3, 'name':'story3', 'price':'400 LE','image':"3.jpg"},
-    {'id':4, 'name':'story4', 'price':'300 LE','image':"1.jpg"},
-    {'id':5, 'name':'story5', 'price':'100 LE','image':"1.jpg"}
-]
+# books =[
+#     {'id':1, 'name':'story1', 'price':'104 LE','image':"1.jpg"},
+#     {'id':2, 'name':'story2', 'price':'10 LE','image':"2.jpg"},
+#     {'id':3, 'name':'story3', 'price':'400 LE','image':"3.jpg"},
+#     {'id':4, 'name':'story4', 'price':'300 LE','image':"1.jpg"},
+#     {'id':5, 'name':'story5', 'price':'100 LE','image':"1.jpg"}
+# ]
 
 def getallbooks(req):
     print (req)
@@ -53,12 +53,13 @@ def aboutus(req):
     
     
 def books_index(req):
-     books  = book.objects.all()
-     return render(req, "books/crud/index.html",
+     books  = Book.objects.all()
+     return render(req, "books/index.html",
                   context={"books": books})
  
 def show_index(req,id):
-    book = get_object_or_404(book, pk=id)
+    book = get_object_or_404(Book, pk=id)
+    # book=Book.objects.get(id=id)
     return render(req, "books/crud/show.html", context={"book": book})
 
 
@@ -78,13 +79,11 @@ def book_create(request):
             image = request.FILES["image"]
          else:
             image = None
-         book = book(name=request.POST["name"], price=request.POST["price"], image=image)
-         book.save()
-         return redirect(book.show_url)
+         book_ = Book(name=request.POST["name"], price=request.POST["price"], image=image)
+         book_.save()
+         return redirect(Book.show_url)
         # return HttpResponse("Post request received")
-    # post request
-
-    # get request
+       # get request
     return  render(request, 'books/crud/create.html')
      
         

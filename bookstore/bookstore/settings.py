@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import pymysql
-pymysql.version_info=(1,4,6,'final',0)
-pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,10 +85,10 @@ WSGI_APPLICATION = 'bookstore.wsgi.application'
 
 DATABASES = {  
     'default': {  
-        'ENGINE': 'django.db.backends.mysql',  
+        'ENGINE': 'mysql.connector.django',  
         'NAME': 'bookstore',  
-        'USER': 'sohila',  
-        'PASSWORD': '1234',  
+        'USER': 'iti', 
+        'PASSWORD': 'Iti123456@',  
         'HOST': 'localhost',  
         'PORT': '3306',  
         'OPTIONS': {  
