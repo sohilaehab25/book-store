@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %} categories From DB {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center">Category Details from database</h2>
+    <div class="card mx-auto" style="width: 18rem;">
+        <img src="{{category.logo_url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{category.name}}</h5>
+            <p class="card-text">Description: {{category.description}}</p>
+            <p class="card-text">Created_at{{category.created_at}}</p>
+            <p class="card-text">Updated_at{{category.updated_at}}</p>
+            <a href="{% url 'categories.index' %}" class="btn btn-primary">Go to Categories</a>
+        </div>
+    </div>
+
+    <h1 class="text-center mt-4">Books in this category</h1>
+    <div class="row justify-content-center">
+        {% for book in category.allbooks.all %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.name }}</h5>
+                    <p class="card-text">Price: L.E{{ book.price }}</p>
+                    <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

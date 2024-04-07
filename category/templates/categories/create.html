@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<h2>Add Category</h2>
+<div class="container col-3 row-3">
+<form method="post"  enctype="multipart/form-data" class="m-2 p-2">
+    {% csrf_token %}
+        {{form }}
+
+    <input type="submit" class="btn btn-success p-3 ">
+</form>
+</div>
+<script src="{% static 'category/js/script.js'%}">
+
+
+</script>
+{%endblock %}

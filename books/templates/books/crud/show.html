@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Book from db</h3>
+    <div class="card mx-auto" style="width: 18rem;">
+        <img src="{{book.image_url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ book.name }}</h5>
+            <p class="card-text">Price: {{ book.price }}</p>
+            <p class="card-text">Created_at{{book.created_at}}</p>
+            <p class="card-text">Updated_at{{book.updated_at}}</p>
+            <p class="card-text"><a href="{{book.category.show_url}}">Category: {{book.category}}</a>
+                {{book.category.description}}</p>
+            <a href="#" class="btn btn-primary">Buy Now</a>
+        </div>
+    </div>
+
+    <h1 class="text-center mt-4">Books in the same category</h1>
+    <div class="row justify-content-center">
+        {% for book in book.category.allbooks.all %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.name }}</h5>
+                    <p class="card-text">Price: L.E{{ book.price }}</p>
+                    <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
