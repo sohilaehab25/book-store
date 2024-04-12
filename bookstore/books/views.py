@@ -2,7 +2,11 @@ from django.shortcuts import render, get_object_or_404,reverse,redirect
 from django.http import HttpResponse
 from books.models import Book
 from books.modelform import BookModelForm
+from books.modelform import Tag
+from books.modelform import TagForm
 from category.models import Category
+from django.contrib.auth.decorators import login_required
+
 
 
 import json
@@ -89,36 +93,52 @@ def book_create(req):
        # get request
     return  render(req, 'books/crud/create.html')
      
-
-def book_updated(req, id):
+@login_required
+def book_updated(request, id):
     book = get_object_or_404(Book, pk=id)
+    form = BookModelForm(instance=book)
     
-    if req.method == 'POST':
-        book.name = req.POST.get('name', book.name)
-        book.price = req.POST.get('price', book.price)
-        category_name = req.POST.get('category')  
-        category, created = Category.objects.get_or_create(name=category_name)
-
-        book.category = category
-        if req.FILES:
-            book.image = req.FILES['image']
-        book.save()
-        return redirect('books.books_index')
+    if request.method == 'POST':
+        form = BookModelForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('books.books_index')
     
-    return render(req, 'books/crud/update.html', {'book': book})
-
+    return render(request, 'books/crud/update.html', {'form': form})
+@login_required
 def create_bookform(request):
     form = BookModelForm()
     if request.method == "POST":
         form = BookModelForm(request.POST, request.FILES)
         if form.is_valid():
             category_name = form.cleaned_data['category']
+            tag_name = form.cleaned_data['tag']
             category, created = Category.objects.get_or_create(name=category_name)
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+           
 
             book = form.save(commit=False)
             book.category = category
+            book.tag = tag
             book.save()
 
             return redirect(book.show_url)
 
     return render(request, 'books/forms/createbookform.html', {'form': form})
+
+
+def tag_index(request):
+    tags = Tag.objects.all() 
+    return render(request, 'tags/index.html', {'tags': tags})
+
+
+@login_required
+def create_tag(request):
+    if request.method == 'POST':
+        form = TagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('books.tag_index')  
+    else:
+        form = TagForm()
+    return render(request, 'tags/create_tag.html', {'form': form})

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'books.apps.BooksConfig',
     'category.apps.CategoryConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'home.apps.HomeConfig'
     ]
 
 MIDDLEWARE = [
@@ -83,14 +84,14 @@ WSGI_APPLICATION = 'bookstore.wsgi.application'
 
 """ DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 } """
 
 DATABASES = {  
     'default': {  
-        'ENGINE': 'mysql.connector.django',  
+        'ENGINE': 'django.db.backends.mysql',   
         'NAME': 'bookstore',  
         'USER': 'iti', 
         'PASSWORD': 'Iti123456@',  

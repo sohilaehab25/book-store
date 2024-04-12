@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Books from DB</h1>
+    <h1>Books</h1>
     
-    <a href="{% url 'books.create' %}" class="btn btn-dark">Create New Product</a>
-    <a href="{% url 'books.create_form' %}" class="btn btn-success">Create New Product with Modelform</a>
+    {% comment %} <a href="{% url 'books.create' %}" class="btn btn-dark">Create New Product</a> {% endcomment %}
+    <a href="{% url 'books.create_form' %}" class="btn btn-dark">Create New Book</a>
 
     <div class="row row-cols-3 row-cols-md-3 g-4">
         {% for book in books %}
@@ -19,6 +19,8 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ book.name }}</h5>
                     <p class="card-text">Price: {{ book.price }}</p>
+                    <p class="card-text">Tag: {{ book.tag }}</p>
+                    <p class="card-text">Author: {{ book.author }}</p>
                     <a href="{{ book.show_url }}" class="btn btn-info">Show</a>
                     <a href="{{ book.delete_url }}" class="btn btn-danger">Delete</a>
                     <a href="{% url 'books.book_updated' book.id %}" class="btn btn-primary">Update</a>

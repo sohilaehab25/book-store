@@ -3,34 +3,60 @@
 
 {% block content %}
 <div class="container">
-    <h3 class="text-center">Book from db</h3>
+    <h3 class="text-center">Book</h3>
     <div class="card mx-auto" style="width: 18rem;">
         <img src="{{book.image_url}}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{ book.name }}</h5>
-            <p class="card-text">Price: {{ book.price }}</p>
-            <p class="card-text">Created_at{{book.created_at}}</p>
-            <p class="card-text">Updated_at{{book.updated_at}}</p>
-            <p class="card-text"><a href="{{book.category.show_url}}">Category: {{book.category}}</a>
-                {{book.category.description}}</p>
+            <p class="card-text">Price: {{ book.price }} L.E</p>
+            <p class="card-text">Created_at: {{book.created_at}}</p>
+            <p class="card-text">Updated_at: {{book.updated_at}}</p>
+            <p class="card-text">Tag: {{ book.tag }}</p>
+            <p class="card-text">
+                <a href="{{book.category.show_url}}" class="category-link">Category: <span class="category-name">{{book.category}}</span></a>
+                <span class="category-description">{{book.category.description}}</span>
+            </p>
             <a href="#" class="btn btn-primary">Buy Now</a>
         </div>
     </div>
 
     <h1 class="text-center mt-4">Books in the same category</h1>
     <div class="row justify-content-center">
-        {% for book in book.category.allbooks.all %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.name }}</h5>
-                    <p class="card-text">Price: L.E{{ book.price }}</p>
-                    <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+        {% for related_book in book.category.book_set.all %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ related_book.image_url }}" class="card-img-top" alt="{{ related_book.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related_book.name }}</h5>
+                        <p class="card-text">Price: L.E{{ related_book.price }}</p>
+                        <a href="{{ related_book.show_url }}" class="btn btn-primary">View Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    /* Style for the category link */
+    .category-link {
+        text-decoration: none; /* Remove underline */
+        color: #007bff; /* Change link color */
+        font-weight: bold; /* Make the link bold */
+        font-family: Arial, sans-serif; /* Specify font family */
+    }
+    
+    /* Style for the category name */
+    .category-name {
+        color: #007bff; /* Match link color */
+    }
+    
+    /* Style for the category description */
+    .category-description {
+        font-style: italic; /* Make description italic */
+        color: #555; /* Set description color */
+    }
+</style>
 {% endblock %}

@@ -1,25 +1,26 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 
-{% block title %} categories From DB {% endblock %}
-{% block content %}
+{% block title %}Categories From DB{% endblock %}
 
+{% block content %}
 <div class="container">
-    <h2 class="text-center">Category Details from database</h2>
+    <h2 class="text-center">Category Details from Database</h2>
     <div class="card mx-auto" style="width: 18rem;">
-        <img src="{{category.logo_url}}" class="card-img-top" alt="...">
+        <img src="{{ category.logo_url }}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{category.name}}</h5>
-            <p class="card-text">Description: {{category.description}}</p>
-            <p class="card-text">Created_at{{category.created_at}}</p>
-            <p class="card-text">Updated_at{{category.updated_at}}</p>
+            <h5 class="card-title">{{ category.name }}</h5>
+            <p class="card-text">Description: {{ category.description }}</p>
+            <p class="card-text">Created_at: {{ category.created_at }}</p>
+            <p class="card-text">Updated_at: {{ category.updated_at }}</p>
             <a href="{% url 'categories.index' %}" class="btn btn-primary">Go to Categories</a>
         </div>
     </div>
 
-    <h1 class="text-center mt-4">Books in this category</h1>
+    <h1 class="text-center mt-4">Books in this Category</h1>
     <div class="row justify-content-center">
-        {% for book in category.allbooks.all %}
+        {% comment %} {{ category }} {% endcomment %}
+        {% for book in category.book_set.all %}
         <div class="col-md-4 mb-4">
             <div class="card">
                 <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
@@ -33,5 +34,4 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}

@@ -13,12 +13,18 @@
     <input type="number" name='price' class="form-control" >
   </div>
     <div class="mb-3">
+    <label class="form-label">tags</label>
+    <input type="text" name='tags' class="form-control" >
+  </div>
+    <div class="mb-3">
     <label class="form-label">Image</label>
     <input type="file" name='image' class="form-control" >
   </div>
-
-
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+  <div class="hstack gap-3">
+    <input class="form-control me-auto" type="text" placeholder="Add your item here..." aria-label="Add your item here...">
+    <button type="button" class="btn btn-secondary">Submit</button>
+    <div class="vr"></div>
+    <button type="button" class="btn btn-outline-danger">Reset</button>
+  </div></form>
 
 {%endblock %}

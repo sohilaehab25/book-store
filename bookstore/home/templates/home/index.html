@@ -1,0 +1,158 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}
+    DB Bookstore Page
+{% endblock %}
+
+{% block content %}
+
+<!-- Search form -->
+<div class="container my-5">
+    <form method="GET" action="{% url 'home.get' %}" class="d-flex">
+        <input type="text" class="form-control me-2" name="query" placeholder="Search Books by Category or Tag">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+{% if search_results %}
+    {% if category %}
+        <!-- Display category details -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <img src="{{ category.logo_url }}" class="card-img-top" alt="Category Logo">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <p class="card-text">Description: {{ category.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Display books in the category -->
+        <div class="container my-5">
+            <h1 class="text-center">Books in this Category</h1>
+            <div class="row justify-content-center">
+                {% for book in search_results %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.name }}</h5>
+                                <p class="card-text">Price: L.E{{ book.price }}</p>
+                                <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Display regular search results -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                {% for book in search_results %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.name }}</h5>
+                                <p class="card-text">Price: L.E{{ book.price }}</p>
+                                <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No results found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <p class="text-center my-5">No results found.</p>
+{% endif %}
+
+<h2 class="my-5 text-dark text-center">The highest priced books</h2>
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for index in highest_priced_books %}
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for book in highest_priced_books %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ book.image_url }}" class="d-block mx-auto" style="height: 500px; width: 500px" alt="{{ book.name }}">
+                <div class="carousel-caption d-none d-md-block text-dark">
+                    <h5>{{ book.name }}</h5>
+                    <p>Price: {{ book.price }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<h2 class="my-5 text-dark text-center">Bestsellers </h2>
+<div class="container">
+    <div class="row row-cols-3 row-cols-md-3 g-4">
+        {% for book in featured_books %}
+            <div >
+                <div class="card">
+                    <img src="{{ book.image_url }}" class="card-img-top" alt="{{ book.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.name }}</h5>
+                        <p class="card-text">Price: L.E{{ book.price }}</p>
+                        <a href="{{ book.show_url }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h2 class="my-5 text-dark text-center">New items</h2>
+<div class="container">
+    <div class="row row-cols-3 row-cols-md-3 g-4">
+        {% for book in books %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ book.image_url }}" class="card-img-top img-fluid mx-auto d-block" style="max-width: 200px; max-height: 200px;" alt="{{ book.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Name: {{ book.name }}</h5>
+                        <p class="card-text">Price: {{ book.price }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h2 class="my-5 text-dark text-center">New category</h2>
+<div class="container">
+    <div class="row row-cols-3 row-cols-md-3 g-4">
+        {% for category in categories %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ category.logo_url }}" class="card-img-top img-fluid mx-auto d-block" style="max-width: 200px; max-height: 200px;" alt="{{ category.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Name: {{ category.name }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

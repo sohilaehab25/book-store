@@ -16,4 +16,6 @@ urlpatterns = [
     path('create_book', book_create,name='books.create'),
     path('<int:id>/update',book_updated,name='books.book_updated'),
     path('create_form',create_bookform, name='books.create_form'), 
+    path('tags/', tag_index, name='books.tag_index'),
+     path('tags/create/', create_tag, name='tags.create_tag'),
 ]
